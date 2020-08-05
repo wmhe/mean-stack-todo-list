@@ -36,7 +36,6 @@ import {User} from '../user';
                 res => console.log(res),
                 err => console.log(err)
             )
-            
         }
     }
  }
