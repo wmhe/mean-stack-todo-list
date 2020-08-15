@@ -1,26 +1,28 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
     providedIn: 'root',
 })
 export class ListService {
 
-    todoSet = new Set([
-        "to-do 1",
-        "to-do 2",
-        "to-do 3",
-    ]);
+    private saveUrl = "http://localhost:3000/api/save-todos";
+    private getUrl = "http://localhost:3000/api/get-todos";
 
-    todoCompletedSet = new Set([]);
+    todoSet;
 
-    constructor() {}
+    constructor(private httpClient: HttpClient) {}
 
     getKeys(): string[] {
         return Array.from(this.todoSet);
     }
 
-    getCompletedKeys(): string[] {
-        return Array.from(this.todoCompletedSet);
+    setKeys(todos: string[]) {
+        this.todoSet = new Set(todos);
+    }
+
+    keysFromDatabase(email: string) {
+        return this.httpClient.post<any>(this.getUrl, {email: email});
     }
 
     addTodo(key: string) {
@@ -31,8 +33,11 @@ export class ListService {
         this.todoSet.delete(key);
     }
 
-    completeTodo(key: string) {
-        this.deleteTodo(key);
-        this.todoCompletedSet.add(key);
+    saveList(email: string) {
+        let saveObject = {
+            email: email,
+            todos: Array.from(this.todoSet),
+        };
+        return this.httpClient.post<any>(this.saveUrl, saveObject);
     }
 }

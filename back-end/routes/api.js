@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const User = require('../models/user')
+const jwt = require('jsonwebtoken')
 
 const mongoose = require('mongoose')
 const db = "mongodb://localhost:27017/data"
@@ -24,7 +25,9 @@ router.post('/register', (req, res) => {
             console.log(error)
         else
         {
-            res.status(200).send(registeredUser)
+            let payload = { subject: registeredUser._id }
+            let token = jwt.sign(payload, 'secretKey')
+            res.status(200).send({token})
         }
     })
 })
@@ -44,8 +47,41 @@ router.post('/login', (req, res) => {
                 if (user.password !== req.body.password)
                     res.status(401).send('Invalid password')
                 else
-                    res.status(200).send(user)
+                {
+                    let payload = { subject: user._id }
+                    let token = jwt.sign(payload, 'secretKey')
+                    res.status(200).send({token, user})
+                }
             }
+        }
+    })
+})
+
+router.post('/save-todos', (req, res) => {
+    const data = req.body;
+    const userEmail = data.email;
+    const listToSave = data.todos;
+    User.findOne({email: userEmail}, (error, user) => {
+        if (error) {
+            console.log(error);
+        }
+        else {
+            user.todos = [...listToSave];
+            user.save();
+            res.status(200).send({user});
+        }
+    })
+})
+
+router.post('/get-todos', (req, res) => {
+    const userEmail = req.body.email;
+
+    User.findOne({email: userEmail}, (error, user) => {
+        if (error) {
+            console.log(error);
+        }
+        else {
+            res.status(200).send({user});
         }
     })
 })

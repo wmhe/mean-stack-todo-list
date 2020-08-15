@@ -3,6 +3,10 @@
     padding: 5px;
 }
 
+#logout:hover {
+    cursor: pointer;
+}
+
 .input-group.mb-3 {
     padding-top: 10px;
     padding-bottom: 5px;

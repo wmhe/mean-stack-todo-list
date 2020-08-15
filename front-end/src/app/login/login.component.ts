@@ -1,7 +1,8 @@
 import {Component} from '@angular/core';
 import {FormGroup, FormControl, FormBuilder} from '@angular/forms';
-import { LoginService } from '../services/login.service';
 import {User} from '../user';
+import { Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
  @Component({
      selector: 'login',
@@ -12,11 +13,13 @@ import {User} from '../user';
     loginForm: FormGroup
     user: User
 
-    constructor(private fb: FormBuilder, private loginService: LoginService) {
+    constructor(private fb: FormBuilder, 
+        private router: Router, private authService: AuthService) {
         this.loginForm = this.fb.group({
             email: [''],
             password: [''],
         });
+        this.user = new User();
     }
 
     getEmail(): string {
@@ -31,9 +34,13 @@ import {User} from '../user';
         if (this.loginForm.valid) {
             this.user.email = this.getEmail();
             this.user.password = this.getPassword();
-            this.loginService.loginUser(this.user)
+            this.authService.loginUser(this.user)
             .subscribe(
-                res => console.log(res),
+                res => {
+                    localStorage.setItem('token', res.token);
+                    localStorage.setItem('email', res.user.email);
+                    this.router.navigate(['/home']);
+                },
                 err => console.log(err)
             )
         }

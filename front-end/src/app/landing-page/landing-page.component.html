@@ -1,9 +1,16 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand">MyToDoApp</a>
     <div class="collapse navbar-collapse">
-        <ul class="navbar-nav">
+        <ul class="navbar-nav mr-auto">
             <li class="nav-item">
                 <a routerLink="/home">Home</a>
+            </li>
+        </ul>
+    </div>
+    <div class="collapse navbar-collapse">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a *ngIf="this.checkLoggedIn()" (click)="onLogOut()" id="logout">Logout</a>
             </li>
         </ul>
     </div>
@@ -25,7 +32,7 @@
             <div *ngFor="let key of todoKeys">
                 <li class="list-group-item">
                     <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="todo" (click)="onCheck(key)">
+                        <input type="checkbox" class="form-check-input" id="todo">
                         <label for="todo" class="form-check-label">{{ key }}</label>
                         <i class="fa fa-trash" (click)="onDelete(key)"></i>
                         <i class="fa fa-edit"></i>
@@ -38,19 +45,6 @@
 
 <div class="container">
     <div class="card">
-        <div class="card-header">
-            Completed
-        </div>
-        <ul class="list-group list-group-flush">
-            <div *ngFor="let key of completedKeys">
-                <li class="list-group-item">
-                    <div class="form-check">
-                        <input type="checkbox" class="form-check-input" id="todo">
-                        <label for="todo" class="form-check-label">{{ key }}</label>
-                        <i class="fa fa-trash" (click)="onDelete(key)"></i>
-                    </div>
-                </li>
-            </div>
-        </ul>
+        <button class="btn btn-primary" (click)="onSave()">Save</button>
     </div>
 </div>
