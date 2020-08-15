@@ -8,6 +8,4 @@ A to-do list web application implemented on a MEAN stack.
 - This was my first time creating a MEAN stack application from scratch
 
 ## To be implemented
--	User authentication
 -	List item editing
--	Logout
