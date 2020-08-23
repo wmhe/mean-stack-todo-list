@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 export class LandingPageComponent {
 
     todoKeys: string[];
+    saveSuccess: boolean;
 
     constructor(private listService: ListService, 
         private authService: AuthService, private router: Router) {
@@ -24,6 +25,7 @@ export class LandingPageComponent {
                 console.log(error);
               },
             );
+        this.saveSuccess = false;
     }
 
     onAdd(todo: string) {
@@ -52,9 +54,11 @@ export class LandingPageComponent {
         .subscribe(
             res => {
                 console.log(res);
+                this.saveSuccess = true;
             },
             error => {
                 console.log(error);
+                this.saveSuccess = false;
             }
         )
     }

@@ -10,15 +10,17 @@ import { AuthService } from '../services/auth.service';
     styleUrls: ['register.component.css'],
 })
 export class RegisterComponent {
-    registerForm: FormGroup
-    newUser = {}
+    registerForm: FormGroup;
+    newUser = {};
+    isError: boolean;
 
     constructor(private registerService: RegisterService, private authService: AuthService, 
         private fb: FormBuilder, private router: Router) {
         this.registerForm = this.fb.group({
             email: [''],
             password: ['']
-        })
+        });
+        this.isError = false;
     }
 
     getEmail(): string {
@@ -34,11 +36,14 @@ export class RegisterComponent {
             this.authService.registerUser({email: this.getEmail(), password: this.getPassword()})
             .subscribe(
                 res => {
-                    console.log(res)
+                    this.isError = false;
                     localStorage.setItem('token', res.token);
                     this.router.navigate(['/home']);
                 },
-                err => console.log(err)
+                err => {
+                    console.log(err);
+                    this.isError = true;
+                }
             )
         }
     }

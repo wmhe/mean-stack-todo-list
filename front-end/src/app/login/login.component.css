@@ -4,6 +4,10 @@
     padding: 10px;
 }
 
+.form-group.register {
+    padding-top: 10px;
+}
+
 button {
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }

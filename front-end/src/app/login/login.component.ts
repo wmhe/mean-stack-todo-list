@@ -12,6 +12,7 @@ import { AuthService } from '../services/auth.service';
  export class LoginComponent {
     loginForm: FormGroup
     user: User
+    isError: boolean;
 
     constructor(private fb: FormBuilder, 
         private router: Router, private authService: AuthService) {
@@ -20,6 +21,7 @@ import { AuthService } from '../services/auth.service';
             password: [''],
         });
         this.user = new User();
+        this.isError = false;
     }
 
     getEmail(): string {
@@ -37,11 +39,15 @@ import { AuthService } from '../services/auth.service';
             this.authService.loginUser(this.user)
             .subscribe(
                 res => {
+                    this.isError = false;
                     localStorage.setItem('token', res.token);
                     localStorage.setItem('email', res.user.email);
                     this.router.navigate(['/home']);
                 },
-                err => console.log(err)
+                err => {
+                    console.log(err);
+                    this.isError = true;
+                }
             )
         }
     }

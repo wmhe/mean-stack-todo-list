@@ -6,14 +6,19 @@
         <div class="card-body">
             <div class="form-group">
                 <label for="email">Email Address</label>
-                <input type="text" id="email" class="form-control" formControlName="email">
+                <input type="text" id="email" maxlength="30" class="form-control" formControlName="email">
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" id="password" class="form-control" formControlName="password">
+                <input type="password" maxlength="30" id="password" class="form-control" formControlName="password">
             </div>
             <button type="submit" class="btn btn-primary">Login</button>
-            <div class="form-group">
+            <div *ngIf="this.isError">
+                <div class="alert alert-danger" role="alert">
+                    Email or password is invalid.
+                </div>
+            </div>
+            <div class="form-group register">
                 <a routerLink='/register'>Don't have an account? Create one!</a>
             </div>
         </div>
