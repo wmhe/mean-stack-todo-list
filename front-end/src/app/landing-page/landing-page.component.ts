@@ -25,7 +25,7 @@ export class LandingPageComponent {
                 console.log(error);
               },
             );
-        this.saveSuccess = false;
+        this.saveSuccess = true;
     }
 
     onAdd(todo: string) {
