@@ -18,6 +18,8 @@ export class RegisterComponent {
         private fb: FormBuilder, private router: Router) {
         this.registerForm = this.fb.group({
             email: [''],
+            firstname: [''],
+            lastname: [''],
             password: ['']
         });
         this.isError = false;
@@ -29,6 +31,14 @@ export class RegisterComponent {
 
     getPassword(): string {
         return this.registerForm.value.password;
+    }
+
+    getFirstName(): string {
+        return this.registerForm.value.firstname;
+    }
+
+    getLastName(): string {
+        return this.registerForm.value.lastname;
     }
 
     onSubmit() {
